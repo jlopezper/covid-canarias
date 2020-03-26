@@ -39,7 +39,7 @@ vignettes/*.pdf
 .Renviron
 
 # data folder
-/data/
+# /data/
 
 # prod
 /rsconnect/

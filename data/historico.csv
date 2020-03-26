@@ -1,0 +1,82 @@
+isla,fecha,casos
+El Hierro,2020-03-16,0
+El Hierro,2020-03-17,0
+El Hierro,2020-03-18,0
+El Hierro,2020-03-19,0
+El Hierro,2020-03-20,1
+El Hierro,2020-03-21,2
+El Hierro,2020-03-22,2
+El Hierro,2020-03-23,3
+El Hierro,2020-03-24,3
+Fuerteventura,2020-03-16,6
+Fuerteventura,2020-03-17,6
+Fuerteventura,2020-03-18,11
+Fuerteventura,2020-03-19,12
+Fuerteventura,2020-03-20,13
+Fuerteventura,2020-03-21,14
+Fuerteventura,2020-03-22,18
+Fuerteventura,2020-03-23,18
+Fuerteventura,2020-03-24,20
+Gran Canaria,2020-03-16,36
+Gran Canaria,2020-03-17,45
+Gran Canaria,2020-03-18,55
+Gran Canaria,2020-03-19,70
+Gran Canaria,2020-03-20,97
+Gran Canaria,2020-03-21,119
+Gran Canaria,2020-03-22,135
+Gran Canaria,2020-03-23,158
+Gran Canaria,2020-03-24,171
+La Gomera,2020-03-16,3
+La Gomera,2020-03-17,3
+La Gomera,2020-03-18,3
+La Gomera,2020-03-19,3
+La Gomera,2020-03-20,3
+La Gomera,2020-03-21,3
+La Gomera,2020-03-22,3
+La Gomera,2020-03-23,3
+La Gomera,2020-03-24,4
+La Graciosa,2020-03-16,0
+La Graciosa,2020-03-17,0
+La Graciosa,2020-03-18,0
+La Graciosa,2020-03-19,0
+La Graciosa,2020-03-20,0
+La Graciosa,2020-03-21,0
+La Graciosa,2020-03-22,0
+La Graciosa,2020-03-23,0
+La Graciosa,2020-03-24,0
+La Palma,2020-03-16,5
+La Palma,2020-03-17,5
+La Palma,2020-03-18,5
+La Palma,2020-03-19,5
+La Palma,2020-03-20,11
+La Palma,2020-03-21,14
+La Palma,2020-03-22,21
+La Palma,2020-03-23,24
+La Palma,2020-03-24,33
+Lanzarote,2020-03-16,7
+Lanzarote,2020-03-17,3
+Lanzarote,2020-03-18,3
+Lanzarote,2020-03-19,3
+Lanzarote,2020-03-20,4
+Lanzarote,2020-03-21,9
+Lanzarote,2020-03-22,9
+Lanzarote,2020-03-23,13
+Lanzarote,2020-03-24,17
+Tenerife,2020-03-16,92
+Tenerife,2020-03-17,119
+Tenerife,2020-03-18,143
+Tenerife,2020-03-19,194
+Tenerife,2020-03-20,219
+Tenerife,2020-03-21,262
+Tenerife,2020-03-22,293
+Tenerife,2020-03-23,338
+Tenerife,2020-03-24,409
+Total,2020-03-16,148
+Total,2020-03-17,181
+Total,2020-03-18,220
+Total,2020-03-19,287
+Total,2020-03-20,348
+Total,2020-03-21,414
+Total,2020-03-22,481
+Total,2020-03-23,557
+Total,2020-03-24,657

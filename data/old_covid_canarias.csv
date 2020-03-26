@@ -1,0 +1,113 @@
+fecha;isla;casos_activos;fallecimientos
+2020-03-06;Gran Canaria;1;0
+2020-03-06;Tenerife;8;0
+2020-03-06;Fuerteventura;0;0
+2020-03-06;Lanzarote;0;0
+2020-03-06;La Palma;0;0
+2020-03-06;La Gomera;0;0
+2020-03-06;El Hierro;0;0
+2020-03-07;Gran Canaria;4;0
+2020-03-07;Tenerife;11;0
+2020-03-07;Fuerteventura;0;0
+2020-03-07;Lanzarote;0;0
+2020-03-07;La Palma;0;0
+2020-03-07;La Gomera;0;0
+2020-03-07;El Hierro;0;0
+2020-03-09;Gran Canaria;4;0
+2020-03-09;Tenerife;12;0
+2020-03-09;Fuerteventura;1;0
+2020-03-09;Lanzarote;0;0
+2020-03-09;La Palma;0;0
+2020-03-09;La Gomera;0;0
+2020-03-09;El Hierro;0;0
+2020-03-10;Gran Canaria;6;0
+2020-03-10;Tenerife;13;0
+2020-03-10;Fuerteventura;1;0
+2020-03-10;Lanzarote;0;0
+2020-03-10;La Palma;0;0
+2020-03-10;La Gomera;0;0
+2020-03-10;El Hierro;0;0
+2020-03-11;Gran Canaria;7;0
+2020-03-11;Tenerife;20;0
+2020-03-11;Fuerteventura;1;0
+2020-03-11;Lanzarote;0;0
+2020-03-11;La Palma;0;0
+2020-03-11;La Gomera;0;0
+2020-03-11;El Hierro;0;0
+2020-03-12;Gran Canaria;12;0
+2020-03-12;Tenerife;31;0
+2020-03-12;Fuerteventura;1;0
+2020-03-12;La Palma;2;0
+2020-03-12;La Gomera;0;0
+2020-03-12;El Hierro;0;0
+2020-03-12;Lanzarote;0;0
+2020-03-13;Gran Canaria;13;0
+2020-03-13;Tenerife;45;0
+2020-03-13;Fuerteventura;1;0
+2020-03-13;La Palma;2;0
+2020-03-13;Lanzarote;2;0
+2020-03-13;El Hierro;0;0
+2020-03-13;La Gomera;0;0
+2020-03-14;Gran Canaria;16;1
+2020-03-14;Tenerife;58;0
+2020-03-14;Fuerteventura;1;0
+2020-03-14;La Palma;3;0
+2020-03-14;Lanzarote;3;0
+2020-03-14;La Gomera;1;0
+2020-03-14;El Hierro;0;0
+2020-03-15;Gran Canaria;19;0
+2020-03-15;Tenerife;70;0
+2020-03-15;Fuerteventura;3;0
+2020-03-15;La Palma;5;0
+2020-03-15;Lanzarote;3;0
+2020-03-15;La Gomera;1;0
+2020-03-15;El Hierro;0;0
+2020-03-16;Gran Canaria;35;0
+2020-03-16;Tenerife;85;1
+2020-03-16;Fuerteventura;6;0
+2020-03-16;La Palma;5;0
+2020-03-16;Lanzarote;7;0
+2020-03-16;La Gomera;1;0
+2020-03-16;El Hierro;0;0
+2020-03-17;Gran Canaria;44;0
+2020-03-17;Tenerife;111;1
+2020-03-17;Fuerteventura;6;0
+2020-03-17;La Palma;5;0
+2020-03-17;Lanzarote;3;0
+2020-03-17;La Gomera;1;0
+2020-03-17;El Hierro;0;0
+2020-03-18;Gran Canaria;54;0
+2020-03-18;Tenerife;135;0
+2020-03-18;Fuerteventura;11;0
+2020-03-18;La Palma;5;0
+2020-03-18;Lanzarote;3;0
+2020-03-18;La Gomera;1;0
+2020-03-18;El Hierro;0;0
+2020-03-19;Gran Canaria;69;0
+2020-03-19;Tenerife;185;1
+2020-03-19;Fuerteventura;12;0
+2020-03-19;La Palma;7;0
+2020-03-19;Lanzarote;3;0
+2020-03-19;La Gomera;1;0
+2020-03-19;El Hierro;0;0
+2020-03-20;Gran Canaria;93;2
+2020-03-20;Tenerife;211;1
+2020-03-20;Fuerteventura;13;0
+2020-03-20;La Palma;11;0
+2020-03-20;Lanzarote;4;0
+2020-03-20;La Gomera;1;0
+2020-03-20;El Hierro;1;0
+2020-03-21;Gran Canaria;108;1
+2020-03-21;Tenerife;256;1
+2020-03-21;Fuerteventura;13;0
+2020-03-21;La Palma;10;0
+2020-03-21;Lanzarote;9;0
+2020-03-21;La Gomera;1;0
+2020-03-21;El Hierro;2;0
+2020-03-22;Gran Canaria;132;1
+2020-03-22;Tenerife;298;1
+2020-03-22;Fuerteventura;13;0
+2020-03-22;La Palma;10;0
+2020-03-22;Lanzarote;8;0
+2020-03-22;La Gomera;1;0
+2020-03-22;El Hierro;2;0
