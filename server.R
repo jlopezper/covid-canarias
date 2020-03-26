@@ -289,4 +289,33 @@ server <- function(input, output, session) {
       tooltip = c("casos", "prediccion_mediana")
     )
   })
+  
+  
+  
+  output$SplitPlot <- renderPlotly({
+      dd <-
+          list(data_deaths, data_uci, data_altas, data_hospitalizados) %>% 
+          reduce(left_join, by = "fecha") %>% 
+          filter(!is.na(hospitalizados))
+      
+      fig <- plot_ly(dd, x = ~fecha, y = ~fallecimientos, type = 'bar', name = 'Fallecimientos', marker = list(color = '#5B5B5B'))
+      fig <- fig %>% add_trace(y = ~casos_uci, name = 'UCI', marker = list(color = '#2F4550'))
+      fig <- fig %>% add_trace(y = ~altas, name = 'Altas', marker = list(color = '#B8DBD9'))
+      fig <- fig %>% add_trace(y = ~hospitalizados, name = 'Hospitalizados', marker = list(color = '#617F91'))
+      fig <- fig %>% layout(yaxis = list(title = 'Count'), barmode = 'stack')
+      
+      fig %>% 
+          layout(
+              hovermode = "compare",
+              yaxis = list(title = "Casos"),
+              annotations = list(
+                  x = 1.05, y = -0.1, text = "Fuente: Datadista",
+                  showarrow = F, xref = "paper", yref = "paper",
+                  xanchor = "right", yanchor = "auto", xshift = 0, yshift = 0,
+                  font = list(size = 10, color = "black")
+              )
+          )
+          
+      
+  })
 }

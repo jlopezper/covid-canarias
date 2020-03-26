@@ -8,14 +8,14 @@ ui <- fluidPage(
                               font-size: 24px;,}
                        #Updtext{color: black;
                               font-size: 9px;}")),
-
+  
   dashboardPage(
     # header
     header = dashboardHeader(title = "Evolución COVID-19 en Canarias", titleWidth = 400),
-
+    
     # sidebar
     dashboardSidebar(disable = TRUE),
-
+    
     # body
     body = dashboardBody(
       fluidRow(
@@ -74,7 +74,15 @@ ui <- fluidPage(
       fluidRow(
         column(
           width = 6,
-          offset = 3,
+          box(
+            title = "Desglose de los casos por situación",
+            status = "primary",
+            width = 16.5, solidHeader = TRUE,
+            plotly::plotlyOutput("SplitPlot", height = 470)
+          )
+        ),
+        column(
+          width = 6,
           box(
             title = "Ajuste (curva logística, 200 simulaciones) y predicción de casos de UCI (3 días)",
             status = "primary",

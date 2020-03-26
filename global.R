@@ -85,24 +85,28 @@ data_covid_filt <- filter(data_covid, fecha == max(fecha)) # solo con la ultima 
 canarias_coord <- read_delim(here("data", "islas_coordenadas.csv"), delim = ";")
 data_uci <- readr::read_csv(datos_uci)
 data_deaths <- readr::read_csv(datos_fallecidos)
+data_altas <- read_csv(datos_altas)
+data_hospitalizados <- read_csv(datos_hospitalizados)
+
 
 # Modificar los datos que provienen de datadista (UCI y fallecimientos)
 # para darles un formato amigable
-data_uci <-
-  data_uci %>%
-  select(-cod_ine) %>%
-  filter(CCAA == "Canarias") %>%
-  pivot_longer(cols = -c(CCAA), names_to = "fecha", values_to = "casos_uci") %>%
-  mutate(fecha = as.Date(fecha, format = "%Y-%m-%d")) %>%
-  select(fecha, casos_uci)
+filter_can <- 
+  function(df, var) {
+    var <- enquo(var)
+    
+    df %>%
+      select(-cod_ine) %>%
+      filter(CCAA == "Canarias") %>%
+      select(fecha,  !! var := total)
+  }
 
-data_deaths <-
-  data_deaths %>%
-  select(-cod_ine) %>%
-  filter(CCAA == "Canarias") %>%
-  pivot_longer(cols = -c(CCAA), names_to = "fecha", values_to = "fallecimientos") %>%
-  mutate(fecha = as.Date(fecha, format = "%Y-%m-%d")) %>%
-  select(fecha, fallecimientos)
+
+data_uci <- filter_can(data_uci, casos_uci)
+data_deaths <- filter_can(data_deaths, fallecimientos)
+data_altas <- filter_can(data_altas, altas)
+data_hospitalizados <- filter_can(data_hospitalizados, hospitalizados)
+
 
 canarias <-
   canarias %>%
