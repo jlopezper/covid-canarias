@@ -9,6 +9,49 @@ ui <- fluidPage(
                        #Updtext{color: black;
                               font-size: 9px;}")),
   
+  
+  tags$style(type = "text/css", ".row {margin-top: 7px; margin-bottom: 0px;}"),
+  tags$style(HTML(".col-sm-12 { padding: 5px; margin-bottom: -15px; }")),
+  tags$style(HTML(".col-sm-6 { padding: 5px; margin-bottom: -15px; }")),
+  
+  
+  tags$head(tags$style(HTML('
+        /* logo */
+        .skin-blue .main-header .logo {
+                              background-color: #DAE1E7;
+                              }
+
+
+        .skin-blue .main-header .logo {
+                              color: #000000;;
+                              }
+
+
+        /* navbar (rest of the header) */
+        .skin-blue .main-header .navbar {
+                              background-color: #DAE1E7;
+                              }
+
+
+        .skin-blue .main-header .logo:hover {
+                              background-color: #DAE1E7;
+                              }
+
+
+        .box.box-solid.box-primary>.box-header {
+                    color: #000000;
+                    background:#DAE1E7
+                    }
+
+
+         .box.box-solid.box-primary{
+                    border-bottom-color:#DAE1E7;
+                    border-left-color:#DAE1E7;
+                    border-right-color:#DAE1E7;
+                    border-top-color:#DAE1E7;
+                      }'))),
+  
+  
   dashboardPage(
     # header
     header = dashboardHeader(title = "Evolución COVID-19 en Canarias", titleWidth = 400),
@@ -19,10 +62,13 @@ ui <- fluidPage(
     # body
     body = dashboardBody(
       fluidRow(
-        column(width = 6, textOutput("Text")),
+        #column(width = 6, textOutput("Text")),
         column(width = 2, valueBoxOutput("Cases", width = 13)),
         column(width = 2, valueBoxOutput("ActiveCases", width = 13)),
-        column(width = 2, valueBoxOutput("Deaths", width = 13))
+        column(width = 2, valueBoxOutput("Deaths", width = 13)),
+        column(width = 2, valueBoxOutput("Hospitalizados", width = 13)),
+        column(width = 2, valueBoxOutput("UCI", width = 13)),
+        column(width = 2, valueBoxOutput("Recovered", width = 13))
       ),
       # fluidRow(valueBoxOutput("TotalCases", width = 3), valueBoxOutput("Deaths", width = 3)),
       fluidRow(column(width = 12, textOutput("Updtext"))),

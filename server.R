@@ -1,29 +1,43 @@
 library(here)
 
 intro <- "Este dashboard presenta los resultados diarios relativos al COVID-19 publicados \
-por la Consejería de Sanidad del Gobierno de Canarias.*"
+por la Consejería de Sanidad del Gobierno de Canarias y a través de la información recopilada por Datadista.*"
 footnote <- "* Nota: los datos pueden tener ligeras discrepancias entre gráficos \
-debido a la precariedad en la toma de la información. Parte de los valores provienen \
-de notas de prensa de la Consejería y otros del informe epidemiológico que publica la misma \
-diariamente."
+debido a la precariedad información proveniente de la Consejería. Parte de los valores provienen \
+de notas de prensa y otros del informe epidemiológico que publica la misma \
+diariamente. Gracias a Datadista por publicar información diaria actualizada por CCAA."
 
 # Define server logic required to draw a histogram
 server <- function(input, output, session) {
-  output$Text <- renderText({
-    intro
-  })
-  output$Updtext <- renderText({
-    paste0("Datos actualizados a: ", format(max(data_covid$fecha), "%d/%m/%Y"))
-  })
+  # output$Text <- renderText({
+  #   intro
+  # })
+  # output$Updtext <- renderText({
+  #   paste0("Datos actualizados a: ", format(max(data_covid$fecha), "%d/%m/%Y"))
+  # })
   output$FootNote <- renderText({
     footnote
   })
 
 
   output$ActiveCases <- renderValueBox({
+    
+    a1 <- as.numeric(gsub(pattern = "\\.", 
+                          replacement = "", 
+                          x = key_values[[1]]$Activos[[length(key_values[[1]]$Activos)]]))
+    
+    a2 <- as.numeric(gsub(pattern = "\\.", 
+                          replacement = "", 
+                          x = key_values[[1]]$X.1[[length(key_values[[1]]$X.1)]]))
+    
+    a3 <- as.numeric(gsub(pattern = "\\.", 
+                          replacement = "", 
+                          x = key_values[[1]]$X.2[[length(key_values[[1]]$X.2)]]))
+    
+    
     valueBox(
       subtitle = "Total casos activos",
-      value = key_values[[1]]$X[[3]],
+      value = a1 + a2 + a3,
       icon = icon("exclamation-triangle"),
       color = "orange"
     )
@@ -33,7 +47,9 @@ server <- function(input, output, session) {
   output$Cases <- renderValueBox({
     valueBox(
       subtitle = "Total casos",
-      value = filter(data_covid_filt, isla == "Total")$casos,
+      value = as.numeric(gsub(pattern = "\\.", 
+                              replacement = "", 
+                              x = key_values[[1]]$Suma.Total[[length(key_values[[1]]$Suma.Total)]])),
       icon = icon("exclamation-triangle"),
       color = "yellow"
     )
@@ -42,10 +58,41 @@ server <- function(input, output, session) {
   output$Deaths <- renderValueBox({
     valueBox(
       subtitle = "Fallecimientos",
-      value = key_values[[1]]$X.1[[5]],
+      value = as.numeric(gsub(pattern = "\\.", 
+                              replacement = "", 
+                              x = key_values[[1]]$Cerrados[[length(key_values[[1]]$Cerrados)]])),
       icon = icon("exclamation-triangle"),
       color = "red"
     )
+  })
+  
+  
+  output$Recovered <- renderValueBox({
+      valueBox(
+          subtitle = "Altas",
+          value = filter(data_altas, fecha == max(fecha))$altas,
+          icon = icon("exclamation-triangle"),
+          color = "green"
+      )
+  })
+  
+  output$UCI <- renderValueBox({
+      valueBox(
+          subtitle = "UCI",
+          value = filter(data_uci, fecha == max(fecha))$casos_uci,
+          icon = icon("exclamation-triangle"),
+          color = "blue"
+      )
+  })
+  
+  
+  output$Hospitalizados <- renderValueBox({
+      valueBox(
+          subtitle = "Hospitalizados",
+          value = filter(data_hospitalizados, fecha == max(fecha))$hospitalizados,
+          icon = icon("exclamation-triangle"),
+          color = "light-blue"
+      )
   })
 
   output$mapPlot <- renderLeaflet({
@@ -99,7 +146,7 @@ server <- function(input, output, session) {
         )
       ) %>%
       addLegend(
-        pal = pal, values = ~casos, opacity = 0.7, title = "Número de casos acumulados/100.000 hab",
+        pal = pal, values = ~casos, opacity = 0.7, title = "Casos acumulados/100.000 hab",
         position = "bottomright"
       )
   })
@@ -111,7 +158,19 @@ server <- function(input, output, session) {
       pivot_wider(names_from = isla, values_from = casos)
 
     # dd$Total <- rowSums(select(dd, -c(fecha)))
-
+    
+    vline <- function(x = 0, color = "red") {
+      list(
+        type = "line", 
+        y0 = 0, 
+        y1 = 1, 
+        yref = "paper",
+        x0 = x, 
+        x1 = x, 
+        line = list(color = color, dash = "dot")
+      )
+    }
+    
     fig <- plot_ly(dd, x = ~fecha, y = ~`Gran Canaria`, name = "Gran Canaria", type = "scatter", mode = "lines")
     fig <- fig %>% add_trace(y = ~`Tenerife`, name = "Tenerife", mode = "lines")
     fig <- fig %>% add_trace(y = ~`La Gomera`, name = "La Gomera", mode = "lines")
@@ -120,6 +179,18 @@ server <- function(input, output, session) {
     fig <- fig %>% add_trace(y = ~`Lanzarote`, name = "Lanzarote", mode = "lines")
     fig <- fig %>% add_trace(y = ~`Fuerteventura`, name = "Fuerteventura", mode = "lines")
     fig <- fig %>% add_trace(y = ~`Total`, name = "Total", mode = "lines")
+    fig <- fig %>% add_annotations(
+      x = as.Date('2020-04-06'),
+      y = 670,
+      xref = "x",
+      yref = "y",
+      text = "Cambio criterio Sanidad",
+      showarrow = T,
+      ax = -75,
+      ay = 20,
+      font = list(size = 9)
+    )
+    
     fig %>% layout(
       hovermode = "compare",
       xaxis = list(
@@ -128,6 +199,7 @@ server <- function(input, output, session) {
         tickformat = "%d-%m-%Y"
       ),
       yaxis = list(title = "Casos acumulados"),
+      shapes = list(vline(as.Date('2020-04-06'))),
       updatemenus = list(
         list(
           active = 0,
@@ -157,9 +229,9 @@ server <- function(input, output, session) {
 
   output$UciPlot <- renderPlotly({
     dd <-
-      data_uci %>%
-      mutate(fall_crec = casos_uci / lag(casos_uci) - 1) %>%
-      filter(!is.na(fall_crec), casos_uci >= 10)
+      data_deaths %>%
+      mutate(fall_crec = fallecimientos / lag(fallecimientos) - 1) %>%
+      filter(!is.na(fall_crec), fallecimientos >= 10)
 
 
     ddd <- left_join(data_uci, data_deaths, by = "fecha") %>%
@@ -169,10 +241,10 @@ server <- function(input, output, session) {
       add_trace(y = ~casos_uci, name = "Casos en UCI", type = "scatter", mode = "lines", line = list(color = "#395C6B")) %>%
       add_trace(y = ~fallecimientos, name = "Fallecimientos", type = "scatter", mode = "lines", line = list(color = "80A4ED")) %>%
       add_trace(
-        x = ~fecha, y = ~fall_crec, type = "bar", name = "Cambio relativo casos en UCI (> 9 casos)", yaxis = "y2",
+        x = ~fecha, y = ~fall_crec, type = "bar", name = "Tasa variación fallecimientos (> 9 fallecidos)", yaxis = "y2",
         marker = list(color = "#bfbfbf"),
         hoverinfo = "text",
-        text = ~ paste("Crecimiento relativo: ", round(fall_crec * 100, 2), "%")
+        text = ~ paste("Cambio relativo: ", round(fall_crec * 100, 2), "%")
       ) %>%
       layout(
         hovermode = "compare",
@@ -183,7 +255,7 @@ server <- function(input, output, session) {
         ),
         xaxis = list(automargin = TRUE),
         yaxis = list(side = "left", overlaying = "y2", title = "Casos acumulados (total Canarias)", showgrid = FALSE, zeroline = FALSE, rangemode = "tozero"),
-        yaxis2 = list(side = "right", title = "Crecimiento relativo de casos en UCI", showgrid = FALSE, zeroline = FALSE, tickformat = "%", rangemode = "tozero", automargin = TRUE),
+        yaxis2 = list(side = "right", title = "Tasa variación fallecimientos", showgrid = FALSE, zeroline = FALSE, tickformat = "%", rangemode = "tozero", automargin = TRUE, range = c(0,1)),
         annotations = list(
           x = 1, y = -0.1, text = "Fuente: Datadista",
           showarrow = F, xref = "paper", yref = "paper",
@@ -226,19 +298,15 @@ server <- function(input, output, session) {
     df <- data.frame(pdf_lista[[1]])
     df <-
       df %>%
-      rename(Edad = Grupo.de.Edad) %>%
-      select(Edad, Mujer.1, Hombre.1) %>%
-      rename(
-        Hombre = Hombre.1,
-        Mujer = Mujer.1
-      )
-
+      rename(Edad = Grupo.de.edad) %>%
+      select(Edad, Mujer, Hombre)
+    
     df$Hombre <- as.numeric(gsub(pattern = ",", replacement = ".", x = df$Hombre))
     df$Mujer <- as.numeric(gsub(pattern = ",", replacement = ".", x = df$Mujer))
 
 
 
-    df$Edad <- factor(df$Edad, levels = c("10-19 años", "20-29 años", "30-39 años", "40-49 años", "50-59 años", "60-69 años", "70-79 años", "80-89 años", ">=90 años"), ordered = TRUE)
+    df$Edad <- factor(df$Edad, levels = c("10-19 años", "20-29 años", "30-39 años", "40-49 años", "50-59 años", "60-69 años", "70-79 años", "80-89 años", "90 o más años"), ordered = TRUE)
 
     fig <- plot_ly(df, x = ~Edad, y = ~Hombre, type = "bar", name = "Hombre", marker = list(color = "#395C6B"))
     fig <- fig %>% add_trace(y = ~Mujer, name = "Mujer", marker = list(color = "#80A4ED"))
@@ -286,7 +354,7 @@ server <- function(input, output, session) {
           y = "Casos",
           color = ""
         ),
-      tooltip = c("casos", "prediccion_mediana")
+      tooltip = c("casos", "prediccion_mediana", "x")
     )
   })
   
@@ -309,7 +377,7 @@ server <- function(input, output, session) {
               hovermode = "compare",
               yaxis = list(title = "Casos"),
               annotations = list(
-                  x = 1.05, y = -0.1, text = "Fuente: Datadista",
+                  x = 1.1, y = -0.1, text = "Fuente: Datadista",
                   showarrow = F, xref = "paper", yref = "paper",
                   xanchor = "right", yanchor = "auto", xshift = 0, yshift = 0,
                   font = list(size = 10, color = "black")

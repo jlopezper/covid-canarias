@@ -75,8 +75,7 @@ build_data <- function(url) {
   }
 }
 
-
-build_data(url_casos)
+if (build_data_from_web) build_data(url_casos)
 
 # Leer distintas fuentes de info
 canarias <- geojson_sf(here("data", "ISLANDS.geojson"))
@@ -132,19 +131,24 @@ extract_from_pdf <- function(url, coords) {
 }
 
 pdf_lista <- extract_from_pdf(
-  url = "https://www3.gobiernodecanarias.org/sanidad/scs/content/dcb400c5-6504-11ea-9a8e-719d4b52bf6c/InformeCasosCOVID-19.pdf",
-  coords = c(559.53149, 72.97314, 703.78571, 523.22114)
+  url = informe_epi,
+  coords = c(521.0021, 581.5000, 664.4912, 752.3204 )
 )
 
 key_values <- extract_from_pdf(
-  url = "https://www3.gobiernodecanarias.org/sanidad/scs/content/dcb400c5-6504-11ea-9a8e-719d4b52bf6c/InformeCasosCOVID-19.pdf",
-  coords = c(349.7072, 162.1485, 458.1164, 432.2973)
+  url = informe_epi,
+  coords = c(271.6044, 147.6163, 430.4673, 513.1719)
 )
 
 
 
 # Modelo (solo se ejecuta offline)
 build_model <- function() {
+  
+  # logis_fun <- function(fecha_index, asymptote, midpoint, scale) {
+  #   return(asymptote / (1 + exp((midpoint - fecha_index) * scale)))
+  # }
+  
   # seleccionar solo informacion relevante
   mm <-
     data_uci %>%
@@ -153,12 +157,13 @@ build_model <- function() {
 
   fit <- nls_multstart(casos ~ SSlogis(fecha_index, phi1, phi2, phi3),
     data = data.frame(mm),
-    iter = 100,
-    start_lower = c(phi1 = 1000, phi2 = 10, phi3 = 0),
-    start_upper = c(phi1 = 2000, phi2 = 20, phi3 = 5),
-    lower = c(phi1 = 1000, phi2 = 10, phi3 = 0),
+    iter = 50,
+    start_lower = c(phi1 = 500, phi2 = -300, phi3 = -100),
+    start_upper = c(phi1 = 2000, phi2 = 300, phi3 = 100),
+    lower = c(phi1 = -500, phi2 = -300, phi3 = -200),
     supp_errors = "Y"
   )
+  
 
   preds <- augment(fit)
 
@@ -173,12 +178,14 @@ build_model <- function() {
     group_by(boot_num) %>%
     mutate(fit = map(strap, ~ nls_multstart(casos ~ SSlogis(fecha_index, phi1, phi2, phi3),
       data = data.frame(.),
-      iter = 100,
-      start_lower = c(phi1 = 1000, phi2 = 10, phi3 = 0),
-      start_upper = c(phi1 = 2000, phi2 = 20, phi3 = 5),
-      lower = c(phi1 = 1000, phi2 = 10, phi3 = 0),
+      iter = 50,
+      start_lower = c(phi1 = 500, phi2 = -300, phi3 = -100),
+      start_upper = c(phi1 = 2000, phi2 = 300, phi3 = 100),
+      lower = c(phi1 = -500, phi2 = -300, phi3 = -200),
       supp_errors = "Y"
     )))
+  
+  
 
   fit_boots <-
     fit_boots %>%
